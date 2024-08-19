@@ -33,7 +33,14 @@ public class Account {
 
     public void generateMonthlyStatement() {
         balance -= monthlyFee;
+
+        balance = round(balance, 2);
         calculateMonthlyInterest();
+    }
+
+    private float round(float value, int places) {
+        float scale = (float) Math.pow(10, places);
+        return Math.round(value * scale) / scale;
     }
 
     public void printAccountDetails() {
@@ -42,5 +49,29 @@ public class Account {
         System.out.println("Number of Withdrawals: " + numWithdrawals);
         System.out.println("Annual Interest Rate: " + annualInterestRate + "%");
         System.out.println("Monthly Fee: " + monthlyFee);
+    }
+
+    public float getBalance() {
+        return balance;
+    }
+
+    public int getNumDeposits() {
+        return numDeposits;
+    }
+
+    public int getNumWithdrawals() {
+        return numWithdrawals;
+    }
+
+    public float getAnnualInterestRate() {
+        return annualInterestRate;
+    }
+
+    public float getMonthlyFee() {
+        return monthlyFee;
+    }
+
+    public void setMonthlyFee(float monthlyFee) {
+        this.monthlyFee = monthlyFee;
     }
 }
