@@ -31,7 +31,9 @@ public class SavingsAccount extends Account {
     @Override
     public void generateMonthlyStatement() {
         if (numWithdrawals > 4) {
-            monthlyFee += (numWithdrawals - 4) * 1000;
+            float extraFee = (numWithdrawals - 4) * 1000;
+            balance -= extraFee;
+            monthlyFee += extraFee;
         }
         super.generateMonthlyStatement();
         updateAccountStatus();
@@ -41,10 +43,17 @@ public class SavingsAccount extends Account {
         isActive = balance >= 10000;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public float getBalance() {
+        return balance;
+    }
+
     @Override
     public void printAccountDetails() {
         super.printAccountDetails();
         System.out.println("Account Active: " + isActive);
     }
 }
-
