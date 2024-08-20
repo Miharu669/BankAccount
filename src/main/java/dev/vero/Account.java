@@ -18,7 +18,12 @@ public class Account {
     }
 
     public void withdraw(float amount) {
-        if (amount <= balance) {
+        if (amount < 0) {
+            System.out.println("Cannot withdraw a negative amount.");
+            return;
+        }
+        float newBalance = balance - amount;
+        if (newBalance >= 0) {
             balance -= amount;
             numWithdrawals++;
         } else {
@@ -28,17 +33,18 @@ public class Account {
 
     public void calculateMonthlyInterest() {
         float monthlyInterestRate = annualInterestRate / 12;
-        balance += balance * (monthlyInterestRate / 100);
+        float monthlyInterest = balance * monthlyInterestRate;
+        balance += monthlyInterest;
     }
 
     public void generateMonthlyStatement() {
-        balance -= monthlyFee;
-
-        balance = round(balance, 2);
         calculateMonthlyInterest();
+        balance -= monthlyFee;
+        balance = round(balance, 2);
     }
 
-    private float round(float value, int places) {
+    public float round(float value, int places) {
+        if (places < 0) throw new IllegalArgumentException("Decimal places cannot be negative.");
         float scale = (float) Math.pow(10, places);
         return Math.round(value * scale) / scale;
     }
@@ -49,29 +55,5 @@ public class Account {
         System.out.println("Number of Withdrawals: " + numWithdrawals);
         System.out.println("Annual Interest Rate: " + annualInterestRate + "%");
         System.out.println("Monthly Fee: " + monthlyFee);
-    }
-
-    public float getBalance() {
-        return balance;
-    }
-
-    public int getNumDeposits() {
-        return numDeposits;
-    }
-
-    public int getNumWithdrawals() {
-        return numWithdrawals;
-    }
-
-    public float getAnnualInterestRate() {
-        return annualInterestRate;
-    }
-
-    public float getMonthlyFee() {
-        return monthlyFee;
-    }
-
-    public void setMonthlyFee(float monthlyFee) {
-        this.monthlyFee = monthlyFee;
     }
 }

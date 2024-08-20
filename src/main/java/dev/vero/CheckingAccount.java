@@ -1,21 +1,22 @@
 package dev.vero;
 
 public class CheckingAccount extends Account {
-    private float overdraft = 0;
+    float overdraft;
 
     public CheckingAccount(float balance, float annualInterestRate) {
         super(balance, annualInterestRate);
+        overdraft = 0;
     }
 
     @Override
     public void withdraw(float amount) {
-        if (amount > balance) {
-            overdraft += (amount - balance);
+        float result = balance - amount;
+        if (result < 0) {
+            overdraft = overdraft - result;
             balance = 0;
         } else {
             super.withdraw(amount);
         }
-        numWithdrawals++;
     }
 
     @Override
