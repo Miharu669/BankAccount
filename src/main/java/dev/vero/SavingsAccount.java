@@ -11,21 +11,30 @@ public class SavingsAccount extends Account {
     @Override
     public void deposit(float amount) {
         if (isActive) {
-            super.deposit(amount);
+            if (amount > 0) {
+                super.deposit(amount);
+                updateAccountStatus();
+            } else {
+                System.out.println("Cannot deposit a negative amount.");
+            }
         } else {
             System.out.println("Account is inactive. Cannot deposit.");
         }
-        updateAccountStatus();
     }
 
     @Override
     public void withdraw(float amount) {
+        updateAccountStatus();
+
         if (isActive) {
-            super.withdraw(amount);
+            if (amount > 0) {
+                super.withdraw(amount);
+            } else {
+                System.out.println("Cannot withdraw a negative amount.");
+            }
         } else {
             System.out.println("Account is inactive. Cannot withdraw.");
         }
-        updateAccountStatus();
     }
 
     @Override
@@ -53,6 +62,7 @@ public class SavingsAccount extends Account {
 
     @Override
     public void printAccountDetails() {
+        System.out.println("Balance = $ "+ balance);
         super.printAccountDetails();
         System.out.println("Account Active: " + isActive);
     }

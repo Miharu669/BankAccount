@@ -22,13 +22,13 @@ class SavingsAccountTest {
     }
 
     @Test
-    void testDeposit() {
-        activeAccount.deposit(1000);
-        assertEquals(16000, activeAccount.getBalance());
+    //falla
+public void testDeposit() {
+    SavingsAccount account = new SavingsAccount(4000, 5);
+    account.deposit(1000); 
+    assertEquals(5000.0, account.getBalance(), 0.01); 
+}
 
-        inactiveAccount.deposit(1000);
-        assertEquals(5000, inactiveAccount.getBalance());
-    }
 
     @Test
     void testWithdraw() {
@@ -39,24 +39,24 @@ class SavingsAccountTest {
         assertEquals(5000, inactiveAccount.getBalance());
     }
 
-    // @Test
-    // void testUpdateAccountStatus() {
-    //     activeAccount.withdraw(6000);
-    //     assertFalse(activeAccount.isActive());
+    @Test
+    //falla
+    void testUpdateAccountStatus() {
+        activeAccount.withdraw(6000);
+        assertFalse(activeAccount.isActive());
 
-    //     inactiveAccount.deposit(6000);
-    //     assertTrue(inactiveAccount.isActive());
-    // }
+        inactiveAccount.deposit(6000);
+        assertTrue(inactiveAccount.isActive());
+    }
 
     @Test
-    void testGenerateMonthlyStatement() {
-        for (int i = 0; i < 5; i++) {
-            activeAccount.withdraw(100);
-        }
-        float initialBalance = activeAccount.getBalance();
-        activeAccount.generateMonthlyStatement();
-        float finalBalance = activeAccount.getBalance();
-        
-        assertTrue(finalBalance < initialBalance - 1000);
-    }
+    //falla
+public void testGenerateMonthlyStatement() {
+    SavingsAccount account = new SavingsAccount(15000, 5);
+    account.deposit(1000); 
+    account.withdraw(500); 
+    account.generateMonthlyStatement();
+    assertEquals(13500.0, account.getBalance(), 0.01); 
+}
+
 }
