@@ -5,19 +5,18 @@ public class Account {
     protected int numDeposits = 0;
     protected int numWithdrawals = 0;
     protected float annualInterestRate;
-    protected float monthlyFee = 0;
+    protected float monthlyFee = (float) 0;
 
     public Account(float balance, float annualInterestRate) {
         this.balance = balance;
         this.annualInterestRate = annualInterestRate;
     }
-
-    public void deposit(float amount) {
+ void deposit(float amount) {
         balance += amount;
         numDeposits++;
     }
 
-    public void withdraw(float amount) {
+     void withdraw(float amount) {
         if (amount < 0) {
             System.out.println("Cannot withdraw a negative amount.");
             return;
@@ -31,25 +30,28 @@ public class Account {
         }
     }
 
-    public void calculateMonthlyInterest() {
+     void calculateMonthlyInterest() {
         float monthlyInterestRate = annualInterestRate / 12;
         float monthlyInterest = balance * monthlyInterestRate;
         balance += monthlyInterest;
     }
 
-    public void generateMonthlyStatement() {
+     void generateMonthlyStatement() {
         calculateMonthlyInterest();
         balance -= monthlyFee;
         balance = round(balance, 2);
     }
 
-    public float round(float value, int places) {
+     float round(float value, int places) {
         if (places < 0) throw new IllegalArgumentException("Decimal places cannot be negative.");
         float scale = (float) Math.pow(10, places);
         return Math.round(value * scale) / scale;
     }
+     float getBalance() {
+        return balance;
+    }
 
-    public void printAccountDetails() {
+    void printAccountDetails() {
         System.out.println("Balance: " + balance);
         System.out.println("Number of Deposits: " + numDeposits);
         System.out.println("Number of Withdrawals: " + numWithdrawals);

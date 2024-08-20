@@ -1,46 +1,64 @@
 package dev.vero;
 
 public class CheckingAccount extends Account {
-    float overdraft;
+    public float overdraft;
 
     public CheckingAccount(float balance, float annualInterestRate) {
         super(balance, annualInterestRate);
-        overdraft = 0;
+        this.overdraft = 0;
     }
 
     @Override
     public void withdraw(float amount) {
-        float result = balance - amount;
-        if (result < 0) {
-            overdraft = overdraft - result;
-            balance = 0;
+        if (amount > 0) {
+            if (amount <= balance + overdraft) {
+                if (amount <= balance) {
+                    balance -= amount;
+                } else {
+                    overdraft = amount - balance;
+                    balance = 0;
+                }
+                numWithdrawals++;
+            } else {
+                System.out.println("Insufficient funds including overdraft.");
+            }
         } else {
-            super.withdraw(amount);
+            System.out.println("Cannot withdraw a negative amount.");
         }
     }
 
     @Override
     public void deposit(float amount) {
-        if (overdraft > 0) {
-            if (amount >= overdraft) {
-                balance += (amount - overdraft);
-                overdraft = 0;
+        if (amount > 0) {
+            if (overdraft > 0) {
+                if (amount > overdraft) {
+                    balance = amount - overdraft;
+                    overdraft = 0;
+                } else {
+                    overdraft -= amount;
+                }
             } else {
-                overdraft -= amount;
+                balance += amount;
             }
+            numDeposits++;
         } else {
-            super.deposit(amount);
+            System.out.println("Cannot deposit a negative amount.");
         }
     }
 
     @Override
     public void generateMonthlyStatement() {
         super.generateMonthlyStatement();
+        if (balance < 0) {
+            overdraft = -balance;
+            balance = 0;
+        }
     }
 
     @Override
     public void printAccountDetails() {
+        System.out.println("Balance: $" + balance);
+        System.out.println("Overdraft: $" + overdraft);
         super.printAccountDetails();
-        System.out.println("Overdraft: " + overdraft);
     }
 }

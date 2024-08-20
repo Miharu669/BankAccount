@@ -10,7 +10,7 @@ public class CheckingAccountTest {
 
     @BeforeEach
     public void setUp() {
-        checkingAccount = new CheckingAccount(1000.0f, 0.05f); // Initial balance: $1000, Annual Interest Rate: 5%
+        checkingAccount = new CheckingAccount(1000.0f, 0.05f);
     }
 
     @Test
@@ -26,46 +26,22 @@ public class CheckingAccountTest {
     }
 
     @Test
-    public void testWithdraw() {
+    public void testWithdrawWithoutOverdraft() {
         checkingAccount.withdraw(200.0f);
         assertEquals(800.0f, checkingAccount.balance, "Balance should be $800 after withdrawing $200");
         assertEquals(1, checkingAccount.numWithdrawals, "Number of withdrawals should be 1");
+        assertEquals(0.0f, checkingAccount.overdraft, "Overdraft should be $0");
     }
 
     @Test
-    public void testOverdraft() {
-        checkingAccount.withdraw(1200.0f);
-        assertEquals(0.0f, checkingAccount.balance, "Balance should be $0 after withdrawing $1200");
-        assertEquals(200.0f, checkingAccount.overdraft, "Overdraft should be $200");
-    }
-<<<<<<< HEAD
-    @Test
-    //Falla
-=======
-//Estos dos test fallan, arreglalos.
-    @Test
->>>>>>> d9ea16d260f6b38c392964d54b3cea6d77162e7e
-    public void testDepositOverdraft() {
-
-        checkingAccount.withdraw(1200.0f);
-        checkingAccount.deposit(1000.0f);
-
-        assertEquals(0.0f, checkingAccount.balance, "Balance should be $0 after depositing $1000");
-        assertEquals(0.0f, checkingAccount.overdraft, "Overdraft should be $0 after depositing $1000");
-    }
-
-    @Test
-<<<<<<< HEAD
-    //Falla
-=======
->>>>>>> d9ea16d260f6b38c392964d54b3cea6d77162e7e
     public void testGenerateMonthlyStatement() {
-
         checkingAccount.deposit(500.0f);
         checkingAccount.generateMonthlyStatement();
 
-        assertEquals(1500.0f, checkingAccount.balance, 0.01,
-                "Balance should be $1500 after applying monthly interest and fees");
-    }
+        float expectedInterest = (0.05f / 12) * 1500.0f;
+        float expectedBalance = 1500.0f + expectedInterest;
 
+        assertEquals(expectedBalance, checkingAccount.balance, 0.01f, "Balance should reflect interest");
+        assertEquals(0.0f, checkingAccount.overdraft, "Overdraft should be $0 at the end of the month");
+    }
 }

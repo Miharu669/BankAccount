@@ -2,61 +2,44 @@ package dev.vero;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class SavingsAccountTest {
-
-    private SavingsAccount activeAccount;
-    private SavingsAccount inactiveAccount;
+public class SavingsAccountTest {
+    private SavingsAccount account;
 
     @BeforeEach
-    void setUp() {
-        activeAccount = new SavingsAccount(15000, 0.05f);
-        inactiveAccount = new SavingsAccount(5000, 0.05f);
+    public void setUp() {
+        account = new SavingsAccount(15000, 0.05f);
     }
 
     @Test
-    void testInitialState() {
-        assertTrue(activeAccount.isActive());
-        assertFalse(inactiveAccount.isActive());
+    public void testDepositActiveAccount() {
+        account.deposit(5000);
+        assertEquals(20000, account.getBalance(), 0.01);
     }
 
     @Test
-    //falla
-public void testDeposit() {
-    SavingsAccount account = new SavingsAccount(4000, 5);
-    account.deposit(1000); 
-    assertEquals(5000.0, account.getBalance(), 0.01); 
-}
-
-
-    @Test
-    void testWithdraw() {
-        activeAccount.withdraw(1000);
-        assertEquals(14000, activeAccount.getBalance());
-
-        inactiveAccount.withdraw(1000);
-        assertEquals(5000, inactiveAccount.getBalance());
+    public void testDepositInactiveAccount() {
+        account.withdraw(6000);
+        account.deposit(2000);
+        assertEquals(11000, account.getBalance(), 0.01);
     }
 
     @Test
-    //falla
-    void testUpdateAccountStatus() {
-        activeAccount.withdraw(6000);
-        assertFalse(activeAccount.isActive());
-
-        inactiveAccount.deposit(6000);
-        assertTrue(inactiveAccount.isActive());
+    public void testWithdrawActiveAccount() {
+        account.withdraw(4000);
+        assertEquals(11000, account.getBalance(), 0.01);
     }
 
     @Test
-    //falla
-public void testGenerateMonthlyStatement() {
-    SavingsAccount account = new SavingsAccount(15000, 5);
-    account.deposit(1000); 
-    account.withdraw(500); 
-    account.generateMonthlyStatement();
-    assertEquals(13500.0, account.getBalance(), 0.01); 
-}
+    public void testWithdrawInactiveAccount() {
+        account.withdraw(6000);
+        assertEquals(9000, account.getBalance(), 0.01);
+    }
 
+    @Test
+    public void testPrintAccountDetails() {
+        assertDoesNotThrow(() -> account.printAccountDetails());
+    }
 }

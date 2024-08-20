@@ -8,33 +8,29 @@ public class SavingsAccount extends Account {
         this.isActive = balance >= 10000;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
     @Override
     public void deposit(float amount) {
-        if (isActive) {
-            if (amount > 0) {
-                super.deposit(amount);
-                updateAccountStatus();
-            } else {
-                System.out.println("Cannot deposit a negative amount.");
-            }
-        } else {
-            System.out.println("Account is inactive. Cannot deposit.");
-        }
+
+        super.deposit(amount);
+        updateAccountStatus();
+
     }
 
     @Override
     public void withdraw(float amount) {
-        updateAccountStatus();
-
-        if (isActive) {
-            if (amount > 0) {
-                super.withdraw(amount);
+        
+            if (isActive) {
+                
+                    super.withdraw(amount);
+               
             } else {
-                System.out.println("Cannot withdraw a negative amount.");
+                System.out.println("Account is inactive. Cannot withdraw.");
             }
-        } else {
-            System.out.println("Account is inactive. Cannot withdraw.");
-        }
+        this.updateAccountStatus();
     }
 
     @Override
@@ -52,17 +48,9 @@ public class SavingsAccount extends Account {
         isActive = balance >= 10000;
     }
 
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public float getBalance() {
-        return balance;
-    }
-
     @Override
     public void printAccountDetails() {
-        System.out.println("Balance = $ "+ balance);
+        System.out.println("Balance: $" + balance);
         super.printAccountDetails();
         System.out.println("Account Active: " + isActive);
     }
