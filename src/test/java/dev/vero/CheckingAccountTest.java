@@ -38,8 +38,13 @@ public class CheckingAccountTest {
         assertEquals(0.0f, checkingAccount.balance, "Balance should be $0 after withdrawing $1200");
         assertEquals(200.0f, checkingAccount.overdraft, "Overdraft should be $200");
     }
+<<<<<<< HEAD
     @Test
     //Falla
+=======
+//Estos dos test fallan, arreglalos.
+    @Test
+>>>>>>> d9ea16d260f6b38c392964d54b3cea6d77162e7e
     public void testDepositOverdraft() {
 
         checkingAccount.withdraw(1200.0f);
@@ -50,7 +55,10 @@ public class CheckingAccountTest {
     }
 
     @Test
+<<<<<<< HEAD
     //Falla
+=======
+>>>>>>> d9ea16d260f6b38c392964d54b3cea6d77162e7e
     public void testGenerateMonthlyStatement() {
 
         checkingAccount.deposit(500.0f);
